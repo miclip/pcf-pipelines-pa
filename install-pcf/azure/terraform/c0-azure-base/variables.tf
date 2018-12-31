@@ -25,7 +25,6 @@ variable "pcf_ert_domain" {}
 variable "apps_domain" {}
 variable "system_domain" {}
 
-variable "ops_manager_image_uri" {}
 variable "vm_admin_username" {}
 variable "vm_admin_public_key" {}
 

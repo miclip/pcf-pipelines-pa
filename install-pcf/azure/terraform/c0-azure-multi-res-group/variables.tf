@@ -40,7 +40,6 @@ variable "pub_ip_id_opsman_vm" {}
 
 variable "subnet_infra_id" {}
 
-variable "ops_manager_image_uri" {}
 variable "vm_admin_username" {}
 variable "vm_admin_public_key" {}
 

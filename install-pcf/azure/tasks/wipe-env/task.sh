@@ -78,18 +78,15 @@ function delete-infrastructure() {
     -var "pub_ip_jumpbox_vm=dontcare" \
     -var "pub_ip_id_jumpbox_vm=dontcare" \
     -var "subnet_infra_id=dontcare" \
-    -var "ops_manager_image_uri=dontcare" \
     -var "vm_admin_username=dontcare" \
     -var "vm_admin_public_key=dontcare" \
     -var "azure_multi_resgroup_network=dontcare" \
     -var "azure_multi_resgroup_pcf=dontcare" \
-    -var "azure_opsman_priv_ip=dontcare" \
     -var "azure_storage_account_name=dontcare" \
     -var "azure_buildpacks_container=dontcare" \
     -var "azure_droplets_container=dontcare" \
     -var "azure_packages_container=dontcare" \
     -var "azure_resources_container=dontcare" \
-    -var "om_disk_size_in_gb=50" \
     -state "${ROOT}/terraform-state/terraform.tfstate" \
     -state-out "${ROOT}/terraform-state-output/terraform.tfstate" \
     "pcf-pipelines/install-pcf/azure/terraform/${AZURE_PCF_TERRAFORM_TEMPLATE}"
