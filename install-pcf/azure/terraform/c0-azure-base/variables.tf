@@ -34,5 +34,4 @@ variable "azure_buildpacks_container" {}
 variable "azure_droplets_container" {}
 variable "azure_packages_container" {}
 variable "azure_resources_container" {}
-variable "om_disk_size_in_gb" {}
-variable "azure_opsman_priv_ip" {}
+
