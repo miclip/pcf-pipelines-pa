@@ -17,30 +17,10 @@ echo "==========================================================================
 echo "Collecting Terraform Variables from Deployed Azure Objects ...."
 echo "=============================================================================================="
 
-# Get Opsman VHD from previous task
-PCF_OPSMAN_IMAGE_URI=$(cat opsman-metadata/uri)
 
 # Use prefix to strip down a Storage Account Prefix String
 ENV_SHORT_NAME=$(echo ${AZURE_TERRAFORM_PREFIX} | tr -d "-" | tr -d "_" | tr -d "[0-9]")
 ENV_SHORT_NAME=$(echo ${ENV_SHORT_NAME:0:10})
-
-##########################################################
-# Detect generate for ssh keys
-##########################################################
-
-if [[ ${PCF_SSH_KEY_PUB} == 'generate' ]]; then
-  echo "Generating SSH keys for Opsman"
-  ssh-keygen -t rsa -f opsman -C ubuntu -q -P ""
-  PCF_SSH_KEY_PUB="$(cat opsman.pub)"
-  PCF_SSH_KEY_PRIV="$(cat opsman)"
-  echo "******************************"
-  echo "******************************"
-  echo "pcf_ssh_key_pub = ${PCF_SSH_KEY_PUB}"
-  echo "******************************"
-  echo "pcf_ssh_key_priv = ${PCF_SSH_KEY_PRIV}"
-  echo "******************************"
-  echo "******************************"
-fi
 
 echo "=============================================================================================="
 echo "Executing Terraform Plan ..."
@@ -65,18 +45,15 @@ terraform plan \
   -var "pcf_ert_domain=${PCF_ERT_DOMAIN}" \
   -var "system_domain=${SYSTEM_DOMAIN}" \
   -var "apps_domain=${APPS_DOMAIN}" \
-  -var "ops_manager_image_uri=${PCF_OPSMAN_IMAGE_URI}" \
   -var "vm_admin_username=${AZURE_VM_ADMIN}" \
   -var "vm_admin_public_key=${PCF_SSH_KEY_PUB}" \
   -var "azure_multi_resgroup_network=${AZURE_MULTI_RESGROUP_NETWORK}" \
   -var "azure_multi_resgroup_pcf=${AZURE_MULTI_RESGROUP_PCF}" \
-  -var "azure_opsman_priv_ip=${AZURE_TERRAFORM_OPSMAN_PRIV_IP}" \
   -var "azure_storage_account_name=${AZURE_STORAGE_ACCOUNT_NAME}" \
   -var "azure_buildpacks_container=${AZURE_BUILDPACKS_CONTAINER}" \
   -var "azure_droplets_container=${AZURE_DROPLETS_CONTAINER}" \
   -var "azure_packages_container=${AZURE_PACKAGES_CONTAINER}" \
   -var "azure_resources_container=${AZURE_RESOURCES_CONTAINER}" \
-  -var "om_disk_size_in_gb=${PCF_OPSMAN_DISK_SIZE_IN_GB}" \
   -out terraform.tfplan \
   -state terraform-state/terraform.tfstate \
   "pcf-pipelines/install-pcf/azure/terraform/${AZURE_PCF_TERRAFORM_TEMPLATE}"
